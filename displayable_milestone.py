@@ -15,3 +15,6 @@ class DisplayableMilestone:
         date = self.milestone.due_on
         now = datetime.utcnow()
         return (date - now).days <= NEXT_MILESTONE_DAYS
+
+    def for_output(self) -> str:
+        return self.milestone.title
