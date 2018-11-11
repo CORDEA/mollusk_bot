@@ -37,4 +37,12 @@ class DisplayablePull:
         review = self.pull.review_comments
         comment = '(' + self.reviews.for_output() + ', ' + str(review) + ' review comments, ' + str(
             self.pull.comments) + ' comments)'
-        return title + ' ' + comment + ' - ' + self.updated_at.to_relative() + '\n  ' + self.pull.html_url
+        additions = self.pull.additions
+        deletions = self.pull.deletions
+        changed = self.pull.changed_files
+        diff = str(changed) + ' files changed, ' + str(
+            additions) + ' insertions(+), ' + str(deletions) + ' deletions(-).'
+        if additions > 1000 or deletions > 1000 or changed > 100:
+            diff += ' I feel strong force...'
+        return (title + ' ' + comment + ' - ' + self.updated_at.to_relative() +
+                '\n  ' + diff + '\n  ' + self.pull.html_url)
