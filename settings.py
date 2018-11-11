@@ -12,3 +12,4 @@ API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 REPOSITORY = os.getenv('GITHUB_REPOSITORY')
 
 LABEL_BUG_LEVELS = ['bug', 'crash']
+LABEL_WIP = 'wip'
