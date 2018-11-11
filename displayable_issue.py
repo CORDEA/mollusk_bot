@@ -27,11 +27,11 @@ class DisplayableIssue:
 
     def for_output(self) -> str:
         title = self.labels.for_output() + self.issue.title
-        assignee = self.issue.assignee
         comment = ' (' + str(self.issue.comments) + ' comments)'
+        assignee = self.issue.assignee
         if assignee is None:
-            description = ', Please assign someone'
+            description = '`Please assign someone!`'
         else:
-            description = ', Assigned to ' + self.issue.assignee.login
-        url = '\t' + self.issue.html_url
-        return title + description + comment + ' - ' + self.updated_at.to_relative() + '\n' + url
+            description = 'Assigned to ' + self.issue.assignee.login + '.'
+        return (title + comment + ' - ' + self.updated_at.to_relative() +
+                '\n\t' + description + '\n\t' + self.issue.html_url)

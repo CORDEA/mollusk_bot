@@ -42,8 +42,8 @@ class DisplayablePull:
         additions = self.pull.additions
         deletions = self.pull.deletions
         changed = self.pull.changed_files
-        diff = '`' + str(changed) + ' files changed, ' + str(
-            additions) + ' insertions(+), ' + str(deletions) + ' deletions(-)`.'
+        diff = str(changed) + ' files changed, ' + str(
+            additions) + ' insertions(+), ' + str(deletions) + ' deletions(-).'
         if additions > 1000 or deletions > 1000 or changed > 100:
             diff += ' I feel strong force...'
         return (title + ' ' + comment + ' - ' + self.updated_at.to_relative() +
