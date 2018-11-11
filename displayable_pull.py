@@ -27,7 +27,9 @@ class DisplayablePull:
     def ready(self) -> bool:
         if settings.LABEL_WIP in self.pull.title.lower():
             return False
-        return next(filter(lambda l: settings.LABEL_WIP == l.name, self.pull.labels), None) is None
+        return next(
+            filter(lambda l: settings.LABEL_WIP == l.name or l.name in settings.LABELS_IGNORE,
+                   self.pull.labels), None) is None
 
     def for_output(self) -> str:
         if self.milestone is None:

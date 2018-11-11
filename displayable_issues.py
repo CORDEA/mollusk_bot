@@ -9,4 +9,4 @@ class DisplayableIssues:
     issues: Iterator[DisplayableIssue]
 
     def for_output(self) -> str:
-        return '\n'.join(map(lambda i: i.for_output(), self.issues))
+        return '\n'.join(map(lambda i: i.for_output(), filter(lambda i: i.ready, self.issues)))

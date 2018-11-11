@@ -13,4 +13,5 @@ REPOSITORY = os.getenv('GITHUB_REPOSITORY')
 
 # local settings
 LABEL_IMPORTANT_ISSUES = ['bug', 'crash']
+LABELS_IGNORE = ['ignore']
 LABEL_WIP = 'wip'
