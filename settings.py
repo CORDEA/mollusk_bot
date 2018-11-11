@@ -11,5 +11,6 @@ BASE_URL = os.getenv('GITHUB_BASE_URL')
 API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 REPOSITORY = os.getenv('GITHUB_REPOSITORY')
 
-LABEL_BUG_LEVELS = ['bug', 'crash']
+# local settings
+LABEL_IMPORTANT_ISSUES = ['bug', 'crash']
 LABEL_WIP = 'wip'

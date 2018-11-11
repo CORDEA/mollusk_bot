@@ -9,10 +9,7 @@ class DisplayableLabels:
     labels: Iterator[DisplayableLabel]
 
     def for_output(self) -> str:
-        labels = list(self.labels)
+        labels = list(map(lambda l: l.label.name, filter(lambda l: l.is_important, self.labels)))
         if len(labels) == 0:
             return ''
-        level = max(labels, key=lambda l: l.bug_level)
-        if level == 0:
-            return ''
-        return '[' + level.label.name + '] '
+        return '[' + ','.join(labels) + '] '
