@@ -30,12 +30,12 @@ class DisplayableTime:
 
     @staticmethod
     def __to_relative(days: int, seconds: int, suffix: str) -> str:
+        if days > 0:
+            return str(days) + ' days ' + suffix
         if seconds < 60:
             return 'now'
         mins = seconds / 60
         if mins < 60:
             return str(int(mins)) + ' mins ' + suffix
         hours = mins / 60
-        if hours < 24:
-            return str(int(hours)) + ' hours ' + suffix
-        return str(days) + ' days ' + suffix
+        return str(int(hours)) + ' hours ' + suffix
