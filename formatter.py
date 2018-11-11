@@ -7,18 +7,9 @@ HEADER = 'Hi, current state is as follows.'
 
 class Formatter:
 
-    def __init__(self):
-        self.milestone = None
-        self.issues = None
-        self.pulls = None
-
-    def set_pulls(self, pulls: DisplayablePulls):
+    def __init__(self, pulls: DisplayablePulls, milestone: DisplayableMilestone=None, issues: DisplayableIssues=None):
         self.pulls = pulls
-
-    def set_milestone(self, milestone: DisplayableMilestone):
         self.milestone = milestone
-
-    def set_issues(self, issues: DisplayableIssues):
         self.issues = issues
 
     def format(self):

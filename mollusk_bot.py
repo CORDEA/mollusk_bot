@@ -6,6 +6,9 @@ from github import Github
 from slackbot.bot import respond_to, Bot
 
 import settings
+from displayable_issues import DisplayableIssues
+from displayable_milestone import DisplayableMilestone
+from displayable_pulls import DisplayablePulls
 from formatter import Formatter
 from github_client import GitHubClient
 
@@ -20,45 +23,49 @@ def __get_settings() -> ArgumentParser:
     parser_bot.set_defaults(func=__start_bot)
     parser_summary = subparsers.add_parser('summary', help='')
     parser_summary.add_argument('--debug', action='store_true', help='')
-    parser_summary.set_defaults(func=__fetch_summary)
+    parser_summary.set_defaults(func=__post_summary)
     return parser
 
 
 @respond_to('summary')
 def __slack_summary(message):
-    __fetch_pulls()
-    __fetch_next_issues()
-    message.reply('\n' + formatter.format())
+    message.reply('\n' + __fetch_summary())
 
 
 def __start_bot(arg):
     Bot().run()
 
 
-def __fetch_summary(arg):
-    __fetch_pulls()
-    __fetch_next_issues()
+def __post_summary(arg):
+    text = __fetch_summary()
     if arg.debug:
-        print(formatter.format())
+        print(text)
     else:
         requests.post(settings.SLACK_HOOK_URL, data=json.dumps({
-            'text': formatter.format()
+            'text': text
         }))
 
 
-def __fetch_pulls():
-    pulls = client.fetch_pulls()
-    formatter.set_pulls(pulls)
+def __fetch_summary() -> str:
+    pulls = __fetch_pulls()
+    milestone = __fetch_next_milestone()
+    if milestone is None:
+        return Formatter(pulls).format()
+    issues = __fetch_next_issues(milestone)
+    return Formatter(pulls, milestone, issues).format()
 
 
-def __fetch_next_issues():
+def __fetch_pulls() -> DisplayablePulls:
+    return client.fetch_pulls()
+
+
+def __fetch_next_milestone() -> DisplayableMilestone:
     milestones = client.fetch_milestones()
-    n = milestones.next_milestone()
-    if n is None:
-        return
-    issues = client.fetch_issues(n)
-    formatter.set_milestone(n)
-    formatter.set_issues(issues)
+    return milestones.next_milestone()
+
+
+def __fetch_next_issues(milestone: DisplayableMilestone) -> DisplayableIssues:
+    return client.fetch_issues(milestone)
 
 
 if __name__ == '__main__':
@@ -66,5 +73,4 @@ if __name__ == '__main__':
     client = GitHubClient(github, settings.ORGANIZATION, settings.REPOSITORY)
 
     args = __get_settings().parse_args()
-    formatter = Formatter()
     args.func(args)
