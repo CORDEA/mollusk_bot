@@ -33,5 +33,5 @@ class DisplayableIssue:
             description = '`Please assign someone!`'
         else:
             description = 'Assigned to ' + self.issue.assignee.login + '.'
-        return (title + comment + ' - ' + self.updated_at.to_relative() +
+        return (title + comment + ' - ' + self.updated_at.to_relative_time() +
                 '\n\t' + description + '\n\t' + self.issue.html_url)

@@ -27,4 +27,4 @@ class Formatter:
             output += '\n\n' + self.pulls.for_output()
         if self.milestone is None or self.issues is None:
             return output
-        return output + '\n\n' + self.milestone.for_output() + ' issues:\n\n' + self.issues.for_output()
+        return output + '\n\n' + self.milestone.for_output(True) + ' issues:\n\n' + self.issues.for_output()

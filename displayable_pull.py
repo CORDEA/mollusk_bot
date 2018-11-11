@@ -35,7 +35,7 @@ class DisplayablePull:
         if self.milestone is None:
             title = self.pull.title
         else:
-            title = '[' + self.milestone.for_output() + '] ' + self.pull.title
+            title = '[' + self.milestone.for_output(False) + '] ' + self.pull.title
         review = self.pull.review_comments
         comment = '(' + self.reviews.for_output() + ', ' + str(review) + ' review comments, ' + str(
             self.pull.comments) + ' comments)'
@@ -46,5 +46,5 @@ class DisplayablePull:
             additions) + ' insertions(+), ' + str(deletions) + ' deletions(-).'
         if additions > 1000 or deletions > 1000 or changed > 100:
             diff += ' I feel strong force...'
-        return (title + ' ' + comment + ' - ' + self.updated_at.to_relative() +
+        return (title + ' ' + comment + ' - ' + self.updated_at.to_relative_time() +
                 '\n\t' + diff + '\n\t' + self.pull.html_url)
