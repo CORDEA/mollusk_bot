@@ -6,5 +6,9 @@ PyGithub==1.43.3
 PyJWT==1.6.4
 python-dotenv==0.9.1
 requests==2.20.1
+six==1.11.0
+slackbot==0.5.3
+slacker==0.9.65
 urllib3==1.24.1
+websocket-client==0.44.0
 wrapt==1.10.11

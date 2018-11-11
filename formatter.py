@@ -3,10 +3,9 @@ from displayable_milestone import DisplayableMilestone
 from displayable_pulls import DisplayablePulls
 
 
-class Printer:
+class Formatter:
 
-    def __init__(self, debug: bool):
-        self.debug = debug
+    def __init__(self):
         self.milestone = None
         self.issues = None
         self.pulls = None
@@ -20,7 +19,7 @@ class Printer:
     def set_issues(self, issues: DisplayableIssues):
         self.issues = issues
 
-    def print(self):
+    def format(self):
         output = ''
         if self.pulls is not None:
             output += self.pulls.for_output()
@@ -28,6 +27,4 @@ class Printer:
             return output
         if output:
             output += '\n\n'
-        output + self.milestone.for_output() + ' issues:\n\n' + self.issues.for_output()
-        if self.debug:
-            print(output)
+        return output + self.milestone.for_output() + ' issues:\n\n' + self.issues.for_output()

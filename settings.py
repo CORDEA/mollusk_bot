@@ -6,10 +6,13 @@ from dotenv import load_dotenv
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
+GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 ORGANIZATION = os.getenv('GITHUB_ORGANIZATION')
 BASE_URL = os.getenv('GITHUB_BASE_URL')
-API_TOKEN = os.getenv('GITHUB_API_TOKEN')
 REPOSITORY = os.getenv('GITHUB_REPOSITORY')
+
+SLACK_API_TOKEN = os.getenv('SLACK_API_TOKEN')
+SLACK_HOOK_URL = os.getenv('SLACK_HOOK_URL')
 
 # local settings
 LABEL_IMPORTANT_ISSUES = ['bug', 'crash']
