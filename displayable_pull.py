@@ -47,4 +47,4 @@ class DisplayablePull:
         if additions > 1000 or deletions > 1000 or changed > 100:
             diff += ' I feel strong force...'
         return (title + ' ' + comment + ' - ' + self.updated_at.to_relative() +
-                '\n  ' + diff + '\n  ' + self.pull.html_url)
+                '\n\t' + diff + '\n\t' + self.pull.html_url)
