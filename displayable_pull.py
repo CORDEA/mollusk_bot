@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from github import PullRequest
 
 import settings
+from displayable_date import DisplayableTime
 from displayable_milestone import DisplayableMilestone
 from displayable_review import DisplayableReview
 from displayable_reviews import DisplayableReviews
@@ -13,10 +14,12 @@ class DisplayablePull:
     pull: PullRequest
     reviews: DisplayableReviews = field(init=False)
     milestone: DisplayableMilestone = field(init=False)
+    updated_at: DisplayableTime = field(init=False)
 
     def __post_init__(self):
         self.reviews = DisplayableReviews(map(lambda r: DisplayableReview(r), self.pull.get_reviews()))
         self.milestone = None
+        self.updated_at = DisplayableTime(self.pull.updated_at)
         if self.pull.milestone is not None:
             self.milestone = DisplayableMilestone(self.pull.milestone)
 
@@ -32,6 +35,6 @@ class DisplayablePull:
         else:
             title = '[' + self.milestone.for_output() + '] ' + self.pull.title
         review = self.pull.review_comments
-        comment = ' (' + self.reviews.for_output() + ', ' + str(review) + ' review comments, ' + str(
+        comment = '(' + self.reviews.for_output() + ', ' + str(review) + ' review comments, ' + str(
             self.pull.comments) + ' comments)'
-        return title + ' ' + comment + '\n  ' + self.pull.html_url
+        return title + ' ' + comment + ' - ' + self.updated_at.to_relative() + '\n  ' + self.pull.html_url
