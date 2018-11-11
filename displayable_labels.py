@@ -12,4 +12,4 @@ class DisplayableLabels:
         labels = list(map(lambda l: l.label.name, filter(lambda l: l.is_important, self.labels)))
         if len(labels) == 0:
             return ''
-        return '[' + ','.join(labels) + '] '
+        return '[*' + '*,*'.join(labels) + '*] '
