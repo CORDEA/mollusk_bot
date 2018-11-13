@@ -6,6 +6,7 @@ from models.displayable_milestone import DisplayableMilestone
 from models.displayable_milestones import DisplayableMilestones
 from models.displayable_pull import DisplayablePull
 from models.displayable_pulls import DisplayablePulls
+from models.displayable_statuses import DisplayableStatuses
 
 
 class GitHubClient:
@@ -18,9 +19,17 @@ class GitHubClient:
             milestone=milestone.milestone, state='open', sort='created', direction='desc')
         return DisplayableIssues(map(lambda i: DisplayableIssue(i), issues))
 
+    def fetch_pull(self, num: int) -> DisplayablePull:
+        pull = self.__repository.get_pull(num)
+        return DisplayablePull(pull)
+
     def fetch_pulls(self) -> DisplayablePulls:
         pulls = self.__repository.get_pulls(state='open', sort='created', direction='desc')
         return DisplayablePulls(map(lambda p: DisplayablePull(p), pulls))
+
+    def fetch_statuses(self, pull: DisplayablePull):
+        statuses = self.__repository.get_commit(pull.pull.head.sha).get_combined_status()
+        return DisplayableStatuses(statuses)
 
     def fetch_milestones(self) -> DisplayableMilestones:
         milestones = self.__repository.get_milestones(state='open')
