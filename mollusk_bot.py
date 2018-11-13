@@ -24,6 +24,10 @@ def __get_settings() -> ArgumentParser:
     parser_summary = subparsers.add_parser('summary', help='')
     parser_summary.add_argument('--debug', action='store_true', help='')
     parser_summary.set_defaults(func=__post_summary)
+    parser_status = subparsers.add_parser('status', help='')
+    parser_status.add_argument('--debug', action='store_true', help='')
+    parser_status.add_argument('--number', type=int, help='')
+    parser_status.set_defaults(func=__post_status)
     return parser
 
 
@@ -44,6 +48,11 @@ def __post_summary(arg):
         requests.post(settings.SLACK_HOOK_URL, data=json.dumps({
             'text': text
         }))
+
+
+def __post_status(arg):
+    pull = client.fetch_pull(arg.number)
+    _ = client.fetch_statuses(pull)
 
 
 def __fetch_summary() -> str:
