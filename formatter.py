@@ -1,6 +1,6 @@
-from displayable_issues import DisplayableIssues
-from displayable_milestone import DisplayableMilestone
-from displayable_pulls import DisplayablePulls
+from models.displayable_issues import DisplayableIssues
+from models.displayable_milestone import DisplayableMilestone
+from models.displayable_pulls import DisplayablePulls
 
 HEADER = 'Hi, current state is as follows.'
 SPECIAL_HEADER = 'All tasks are completed. See you again.'

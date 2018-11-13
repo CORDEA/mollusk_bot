@@ -6,9 +6,9 @@ from github import Github
 from slackbot.bot import respond_to, Bot
 
 import settings
-from displayable_issues import DisplayableIssues
-from displayable_milestone import DisplayableMilestone
-from displayable_pulls import DisplayablePulls
+from models.displayable_issues import DisplayableIssues
+from models.displayable_milestone import DisplayableMilestone
+from models.displayable_pulls import DisplayablePulls
 from formatter import Formatter
 from github_client import GitHubClient
 

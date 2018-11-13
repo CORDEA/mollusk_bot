@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Iterator
 
-from displayable_issue import DisplayableIssue
+from models.displayable_issue import DisplayableIssue
 
 
 @dataclass

@@ -1,11 +1,11 @@
 from github import Github
 
-from displayable_issue import DisplayableIssue
-from displayable_issues import DisplayableIssues
-from displayable_milestone import DisplayableMilestone
-from displayable_milestones import DisplayableMilestones
-from displayable_pull import DisplayablePull
-from displayable_pulls import DisplayablePulls
+from models.displayable_issue import DisplayableIssue
+from models.displayable_issues import DisplayableIssues
+from models.displayable_milestone import DisplayableMilestone
+from models.displayable_milestones import DisplayableMilestones
+from models.displayable_pull import DisplayablePull
+from models.displayable_pulls import DisplayablePulls
 
 
 class GitHubClient:

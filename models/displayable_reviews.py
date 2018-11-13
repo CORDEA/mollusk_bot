@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Iterator
 
-from displayable_review import DisplayableReview
+from models.displayable_review import DisplayableReview
 
 
 @dataclass

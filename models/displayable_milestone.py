@@ -3,7 +3,7 @@ from datetime import datetime
 
 from github import Milestone
 
-from displayable_date import DisplayableTime
+from models.displayable_date import DisplayableTime
 
 NEXT_MILESTONE_DAYS = 7
 

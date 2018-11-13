@@ -3,10 +3,10 @@ from dataclasses import dataclass, field
 from github import PullRequest
 
 import settings
-from displayable_date import DisplayableTime
-from displayable_milestone import DisplayableMilestone
-from displayable_review import DisplayableReview
-from displayable_reviews import DisplayableReviews
+from models.displayable_date import DisplayableTime
+from models.displayable_milestone import DisplayableMilestone
+from models.displayable_review import DisplayableReview
+from models.displayable_reviews import DisplayableReviews
 
 
 @dataclass

@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 
 from github import Issue
 
-from displayable_date import DisplayableTime
-from displayable_label import DisplayableLabel
-from displayable_labels import DisplayableLabels
+from models.displayable_date import DisplayableTime
+from models.displayable_label import DisplayableLabel
+from models.displayable_labels import DisplayableLabels
 
 
 @dataclass

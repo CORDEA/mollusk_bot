@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 import settings
-from displayable_label import DisplayableLabel
+from models.displayable_label import DisplayableLabel
 
 
 @dataclass
