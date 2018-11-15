@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>jp.cordea.mollusk_bot</string>
+		<key>ProgramArguments</key>
+		<array>
+			<string>/path/mollusk_bot/venv/bin/python</string>
+			<string>/path/mollusk_bot/mollusk_bot.py</string>
+			<string>summary</string>
+		</array>
+		<key>StartInterval</key>
+		<integer>600</integer>
+	</dict>
+</plist>
