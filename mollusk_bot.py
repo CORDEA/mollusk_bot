@@ -23,6 +23,7 @@ def __get_settings() -> ArgumentParser:
     parser_bot.set_defaults(func=__start_bot)
     parser_summary = subparsers.add_parser('summary', help='')
     parser_summary.add_argument('--debug', action='store_true', help='')
+    parser_summary.add_argument('--omit', action='store_true', help='')
     parser_summary.set_defaults(func=__post_summary)
     parser_status = subparsers.add_parser('status', help='')
     parser_status.add_argument('--debug', action='store_true', help='')
@@ -33,7 +34,7 @@ def __get_settings() -> ArgumentParser:
 
 @respond_to('summary')
 def __slack_summary(message):
-    message.reply('\n' + __fetch_summary())
+    message.reply('\n' + __fetch_summary(False))
 
 
 def __start_bot(arg):
@@ -41,7 +42,7 @@ def __start_bot(arg):
 
 
 def __post_summary(arg):
-    text = __fetch_summary()
+    text = __fetch_summary(arg.omit)
     if arg.debug:
         print(text)
     else:
@@ -55,8 +56,8 @@ def __post_status(arg):
     _ = client.fetch_statuses(pull)
 
 
-def __fetch_summary() -> str:
-    pulls = __fetch_pulls()
+def __fetch_summary(omit: bool) -> str:
+    pulls = __fetch_pulls(omit)
     milestone = __fetch_next_milestone()
     if milestone is None:
         return Formatter(pulls).format()
@@ -64,8 +65,8 @@ def __fetch_summary() -> str:
     return Formatter(pulls, milestone, issues).format()
 
 
-def __fetch_pulls() -> DisplayablePulls:
-    return client.fetch_pulls()
+def __fetch_pulls(omit: bool) -> DisplayablePulls:
+    return client.fetch_pulls(settings.OMIT_COUNT if omit else 100)
 
 
 def __fetch_next_milestone() -> DisplayableMilestone:

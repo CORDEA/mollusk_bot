@@ -23,9 +23,9 @@ class GitHubClient:
         pull = self.__repository.get_pull(num)
         return DisplayablePull(pull)
 
-    def fetch_pulls(self) -> DisplayablePulls:
+    def fetch_pulls(self, limit: int) -> DisplayablePulls:
         pulls = self.__repository.get_pulls(state='open', sort='created', direction='desc')
-        return DisplayablePulls(map(lambda p: DisplayablePull(p), pulls))
+        return DisplayablePulls(map(lambda p: DisplayablePull(p), pulls), limit)
 
     def fetch_statuses(self, pull: DisplayablePull):
         statuses = self.__repository.get_commit(pull.pull.head.sha).get_combined_status()
