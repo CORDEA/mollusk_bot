@@ -1,5 +1,7 @@
 from github import Github
 
+from models.displayable_comment import DisplayableComment
+from models.displayable_comments import DisplayableComments
 from models.displayable_issue import DisplayableIssue
 from models.displayable_issues import DisplayableIssues
 from models.displayable_milestone import DisplayableMilestone
@@ -34,3 +36,7 @@ class GitHubClient:
     def fetch_milestones(self) -> DisplayableMilestones:
         milestones = self.__repository.get_milestones(state='open')
         return DisplayableMilestones(map(lambda m: DisplayableMilestone(m), milestones))
+
+    def fetch_comments(self, pull: DisplayablePull) -> DisplayableComments:
+        comments = pull.pull.get_comments()
+        return DisplayableComments(map(lambda c: DisplayableComment(c), comments))
