@@ -38,9 +38,13 @@ def __get_settings() -> ArgumentParser:
     return parser
 
 
-@respond_to('summary')
-def __slack_summary(message):
-    message.reply('\n' + __fetch_summary(False))
+@respond_to('summary(?:\s(\w+))?')
+def __slack_summary(message, option):
+    if not option:
+        message.reply('\n' + __fetch_summary(False))
+        return
+    if option == 'inthread':
+        message.reply('\n' + __fetch_summary(False), in_thread=True)
 
 
 @respond_to('review (\d+)')
