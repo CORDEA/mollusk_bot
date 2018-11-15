@@ -31,11 +31,24 @@ class DisplayablePull:
             filter(lambda l: settings.LABEL_WIP == l.name or l.name in settings.LABELS_IGNORE,
                    self.pull.labels), None) is None
 
+    def __status_for_output(self) -> str:
+        state = self.pull.mergeable_state
+        if state == 'dirty':
+            return ':woman-gesturing-no: '
+        if state == 'clean':
+            return ':ok_woman: '
+        if state == 'blocked':
+            return ':crossed_swords: '
+        if state == 'unknown':
+            return ''
+        return ':man-running: '
+
     def for_output(self) -> str:
+        title = self.__status_for_output()
         if self.milestone is None:
-            title = self.pull.title
+            title += self.pull.title
         else:
-            title = '[' + self.milestone.for_output(False) + '] ' + self.pull.title
+            title += '[' + self.milestone.for_output(False) + '] ' + self.pull.title
         review = self.pull.review_comments
         comment = '(' + self.reviews.for_output() + ', ' + str(review) + ' review comments, ' + str(
             self.pull.comments) + ' comments)'
