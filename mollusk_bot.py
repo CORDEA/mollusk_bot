@@ -6,11 +6,11 @@ from github import Github
 from slackbot.bot import respond_to, Bot
 
 import settings
+from formatter import Formatter
+from github_client import GitHubClient
 from models.displayable_issues import DisplayableIssues
 from models.displayable_milestone import DisplayableMilestone
 from models.displayable_pulls import DisplayablePulls
-from formatter import Formatter
-from github_client import GitHubClient
 
 __version__ = '0.1.0'
 
@@ -21,20 +21,34 @@ def __get_settings() -> ArgumentParser:
     subparsers = parser.add_subparsers(help='')
     parser_bot = subparsers.add_parser('bot', help='')
     parser_bot.set_defaults(func=__start_bot)
+
     parser_summary = subparsers.add_parser('summary', help='')
     parser_summary.add_argument('--debug', action='store_true', help='')
     parser_summary.add_argument('--omit', action='store_true', help='')
     parser_summary.set_defaults(func=__post_summary)
+
     parser_status = subparsers.add_parser('status', help='')
     parser_status.add_argument('--debug', action='store_true', help='')
     parser_status.add_argument('--number', type=int, help='')
-    parser_status.set_defaults(func=__post_status)
+
+    parser_review = subparsers.add_parser('review', help='')
+    parser_review.add_argument('--debug', action='store_true', help='')
+    parser_review.add_argument('--number', type=int, help='')
+    parser_review.set_defaults(func=__post_review)
     return parser
 
 
 @respond_to('summary')
 def __slack_summary(message):
     message.reply('\n' + __fetch_summary(False))
+
+
+@respond_to('review (\d+)')
+def __slack_review(message, number):
+    pull = client.fetch_pull(int(number))
+    review = client.fetch_comments(pull)
+    pull.comments = review
+    message.reply('\n' + pull.for_output())
 
 
 def __start_bot(arg):
@@ -54,6 +68,18 @@ def __post_summary(arg):
 def __post_status(arg):
     pull = client.fetch_pull(arg.number)
     _ = client.fetch_statuses(pull)
+
+
+def __post_review(arg):
+    pull = client.fetch_pull(int(arg.number))
+    review = client.fetch_comments(pull)
+    pull.comments = review
+    if arg.debug:
+        print(pull.for_output())
+    else:
+        requests.post(settings.SLACK_HOOK_URL, data=json.dumps({
+            'text': pull.for_output()
+        }))
 
 
 def __fetch_summary(omit: bool) -> str:
