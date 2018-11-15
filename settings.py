@@ -1,9 +1,9 @@
 import os
-from pathlib import Path
+from os.path import dirname, join
 
 from dotenv import load_dotenv
 
-env_path = Path('.') / '.env'
+env_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=env_path)
 
 GITHUB_API_TOKEN = os.getenv('GITHUB_API_TOKEN')
