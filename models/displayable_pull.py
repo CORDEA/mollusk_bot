@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from github import PullRequest
 
 import settings
+from models.displayable_comments import DisplayableComments
 from models.displayable_date import DisplayableTime
 from models.displayable_milestone import DisplayableMilestone
 from models.displayable_review import DisplayableReview
@@ -12,6 +13,7 @@ from models.displayable_reviews import DisplayableReviews
 @dataclass
 class DisplayablePull:
     pull: PullRequest
+    comments: DisplayableComments = None
     reviews: DisplayableReviews = field(init=False)
     milestone: DisplayableMilestone = field(init=False)
     updated_at: DisplayableTime = field(init=False)
@@ -59,5 +61,18 @@ class DisplayablePull:
             additions) + ' insertions(+), ' + str(deletions) + ' deletions(-).'
         if additions > 1000 or deletions > 1000 or changed > 100:
             diff += ' I feel strong force...'
-        return (title + ' ' + comment + ' - ' + self.updated_at.to_relative_time() +
-                '\n\t' + diff + '\n\t' + self.pull.html_url)
+
+        formatted = (title + ' ' + comment + ' - ' + self.updated_at.to_relative_time() +
+                     '\n\t' + diff + '\n\t' + self.pull.html_url)
+        if self.comments is None:
+            return formatted
+
+        comments = ''
+        logins = self.comments.logins
+        approved_logins = self.reviews.approved_logins
+        if len(logins) > 0:
+            comments += 'It seems that this PR has already been reviewed by ' + ', '.join(logins) + '.\n'
+        review_diff = logins - approved_logins
+        if len(review_diff) > 0:
+            comments += 'But *' + '*, *'.join(review_diff) + '* does not seem to approve yet.\n'
+        return formatted + '\n\n' + comments
