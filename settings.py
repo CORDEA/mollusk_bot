@@ -16,7 +16,8 @@ SLACK_HOOK_URL = os.getenv('SLACK_HOOK_URL')
 
 # local settings
 LABEL_IMPORTANT_ISSUES = ['bug', 'crash']
-LABELS_IGNORE = ['ignore']
+LABELS_IGNORE = []
+LABELS_ONLY = ['ready']
 LABEL_WIP = 'wip'
 
 OMIT_COUNT = 5

@@ -27,6 +27,8 @@ class DisplayablePull:
 
     @property
     def ready(self) -> bool:
+        if settings.LABELS_ONLY:
+            return next(filter(lambda l: l.name in settings.LABELS_ONLY, self.pull.labels), None) is not None
         if settings.LABEL_WIP in self.pull.title.lower():
             return False
         return next(
