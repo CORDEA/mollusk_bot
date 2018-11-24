@@ -36,17 +36,22 @@ class DisplayablePull:
     def __status_for_output(self) -> str:
         state = self.pull.mergeable_state
         if state == 'dirty':
-            return ':woman-gesturing-no: '
+            return ':crossed_swords:'
         if state == 'clean':
-            return ':ok_woman: '
+            return ':ok_woman:'
         if state == 'blocked':
-            return ':crossed_swords: '
-        if state == 'unknown':
-            return ''
-        return ':man-running: '
+            return ':woman-gesturing-no:'
+        if state == 'unstable':
+            return ':man-running:'
+        return ''
 
     def for_output(self) -> str:
-        title = self.__status_for_output()
+        if self.reviews.is_approved:
+            title = ':tada:'
+        else:
+            title = self.__status_for_output()
+        if title:
+            title += ' '
         if self.milestone is None:
             title += self.pull.title
         else:

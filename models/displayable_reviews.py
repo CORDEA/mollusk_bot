@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from typing import Iterator, Set
+from typing import Iterator, Set, List
 
+import settings
 from models.displayable_review import DisplayableReview
 
 
@@ -8,11 +9,15 @@ from models.displayable_review import DisplayableReview
 class DisplayableReviews:
     reviews: Iterator[DisplayableReview]
 
-    def __approved_reviews(self) -> Iterator[DisplayableReview]:
-        return filter(lambda r: r.is_approved, self.reviews)
+    def __approved_reviews(self) -> List[DisplayableReview]:
+        return list(filter(lambda r: r.is_approved, self.reviews))
 
     def for_output(self) -> str:
-        return '*' + str(len(list(self.__approved_reviews()))) + ' approved*'
+        return '*' + str(len(self.__approved_reviews())) + ' approved*'
+
+    @property
+    def is_approved(self) -> bool:
+        return len(self.__approved_reviews()) > settings.REQUIRED_REVIEWERS
 
     @property
     def approved_logins(self) -> Set[str]:
