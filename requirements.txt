@@ -3,7 +3,7 @@ chardet==3.0.4
 Deprecated==1.2.4
 idna==2.7
 PyGithub==1.43.3
-PyJWT==1.6.4
+PyJWT==2.4.0
 python-dotenv==0.9.1
 requests==2.20.1
 six==1.11.0
